@@ -26,7 +26,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	handler := api.NewSdHandler()
-	err := http.ListenAndServe(fmt.Sprintf("%s:%s", hostname, port), handler)
+	sd_handler := api.NewSdHandler()
+	mux := http.NewServeMux()
+	mux.Handle("/", sd_handler)
+	err := http.ListenAndServe(fmt.Sprintf("%s:%s", hostname, port), mux)
 	log.Fatal(err)
 }
